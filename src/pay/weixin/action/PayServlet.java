@@ -31,7 +31,7 @@ public class PayServlet extends javax.servlet.http.HttpServlet {
         String body = "医事通";
         String trade_type = "NATIVE";
         //String notify_url = "http://zhuzuohua.oicp.net/ercodePay/pay-huidao.action";
-        String notify_url = "2i0590x817.iok.la:22461/test.jsp";
+        String notify_url = "2i0590x817.iok.la:28983/PayHuiDiaoServlet";
         int total_fee = 1;
 
         String nonce_str = Util.getRandomString(20);
@@ -105,7 +105,7 @@ public class PayServlet extends javax.servlet.http.HttpServlet {
 
         System.out.println(ercodeUrl+"二维码");
         request.setAttribute("ercodeUrl",ercodeUrl);
-        request.getRequestDispatcher("pay/weixin/success.jsp").forward(request,response);
+        request.getRequestDispatcher("pay/weixin/WeChatPaying.jsp").forward(request,response);
     }
 
 

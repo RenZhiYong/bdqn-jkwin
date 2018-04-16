@@ -1,77 +1,53 @@
 package utils;
 
-
 import com.alibaba.druid.pool.DruidDataSourceFactory;
+import org.apache.commons.dbutils.QueryRunner;
+import org.apache.commons.dbutils.handlers.BeanListHandler;
 import org.junit.Test;
-import pojo.City;
 import pojo.User;
 
 import javax.sql.DataSource;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.sql.*;
+import java.sql.SQLException;
+import java.util.List;
 import java.util.Properties;
 
 public class BaseDao {
-
     private static DataSource dataSource;
-    private static String driver;
-    private static String url;
-    private static String user;
-    private static String password;
-
-
-    //获取jdbc连接所需要的参数
+    private static QueryRunner queryRunner;
     static {
-        Properties property = new Properties();
-        try {
-            InputStream inputStream = BaseDao.class.getClassLoader().getResourceAsStream("jdbc-druid-config.properties");
-
+        Properties property=new Properties();
+        try{
+            InputStream inputStream= BaseDao.class.getClassLoader().getResourceAsStream("jdbc-druid-config.properties");
             property.load(inputStream);
             dataSource = DruidDataSourceFactory.createDataSource(property);
-            /*driver= property.getProperty("driver");
-            url=property.getProperty("url");
-            password=property.getProperty("password");
-*/
+            /*queryRunner=new QueryRunner(dataSource);*/
 
+        } catch (IOException e) {
+            e.printStackTrace();
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-
     }
 
-    public City query(String sql, Object... param) {
-        City city = new City();
-        try (
-                Connection connection = dataSource.getConnection();
-                PreparedStatement pstmt = connection.prepareStatement(sql);
-
-        ) {
-            if (param != null) {
-                for (int i = 0; i < param.length; i++) {
-                    pstmt.setObject(i + 1, param[i]);
-                }
-            }
-            ResultSet rs = pstmt.executeQuery();
-            while (rs.next()) {
-
-                city.setId(rs.getInt(1));
-                city.setName(rs.getString(2));
-            }
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return city;
+    public static QueryRunner getQueryRunner() {
+        return new QueryRunner(dataSource);
     }
 
+   /* public static void setQueryRunner(QueryRunner queryRunner) {
+        baseDao.queryRunner = queryRunner;
+    }*/
     @Test
-   public void a() {
-        String sql = "select * FROM city where id=?";
-        City city = query(sql, 1);
-        System.out.println(city);
+    public void queryTest() throws SQLException {
+        String sql="select * from user";
+        List<User> users=getQueryRunner().query(sql, new BeanListHandler<>(User.class));
+        System.out.println(users);
+
+        List<User> users1=getQueryRunner().query(sql, new BeanListHandler<>(User.class));
+        System.out.println(users1);
+
     }
+
+
 }

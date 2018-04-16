@@ -1,0 +1,41 @@
+/*主页轮播按钮*/
+.mainpageCarouselbtn{
+    font-size:100px;
+}
+/*搜索按钮*/
+#searchBtn{
+    border-radius: 2px;
+    padding: 9px 12px ;
+}
+
+.full_mark{
+    background-color: #31b0d5;
+}
+
+#sidebar{
+    z-index: 100;
+    width: 40px;
+    right:0px;
+}
+#sidebar_contente{
+    width:36px;
+    height: 81px;
+}
+#sidebar_contente1{
+    width:36px;
+    height: 81px;
+}
+#sidebar_contente2{
+    width:36px;
+    height: 81px;
+}
+.sidebarbtn{
+    height:40px;
+}
+
+#backToTop{
+    z-index: 100;
+    width: 40px;
+    right:0px;
+    margin-top: 300px;
+}
